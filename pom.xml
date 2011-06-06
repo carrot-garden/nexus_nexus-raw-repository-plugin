@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.sonatype.forge</groupId>
+    <artifactId>forge-parent</artifactId>
+    <version>10</version>
+  </parent>
+
+  <groupId>org.sonatype.nexus.plugins</groupId>
+  <artifactId>nexus-raw-repository-plugin</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>nexus-plugin</packaging>
+
+  <name>Nexus : Plugins : Raw Repository</name>
+
+  <scm>
+    <connection>scm:git:git@github.com/sonatype/nexus-raw-repository-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/sonatype/nexus-raw-repository-plugin.git</developerConnection>
+    <url>http://github.com/sonatype/nexus-raw-repository-plugin</url>
+  </scm>
+
+  <properties>
+    <nexus.version>1.9.2-SNAPSHOT</nexus.version>
+    <sisu.assembler.tags>nexus,nexus-plugins</sisu.assembler.tags>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-api</artifactId>
+      <version>${nexus.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-proxy</artifactId>
+      <version>${nexus.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonatype.nexus</groupId>
+      <artifactId>nexus-app</artifactId>
+      <version>${nexus.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.sonatype.nexus</groupId>
+        <artifactId>nexus-runtime-platform</artifactId>
+        <version>2-INSIGHT-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>app-lifecycle-maven-plugin</artifactId>
+        <version>1.4-SNAPSHOT</version>
+        <extensions>true</extensions>
+        <dependencies>
+          <dependency>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>app-lifecycle-nexus</artifactId>
+            <version>1.4-SNAPSHOT</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>yuicompressor-maven-plugin</artifactId>
+        <version>0.0.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>aggregate</goal>
+            </goals>
+            <configuration>
+              <output>${project.build.directory}/classes/static/js/nexus-raw-repository-plugin-all.js</output>
+              <nosuffix>true</nosuffix>
+              <nomunge>true</nomunge>
+              <jswarn>false</jswarn>
+              <insertNewLine>true</insertNewLine>
+              <disableOptimizations>true</disableOptimizations>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>assembly</id>
+      <activation>
+        <property>
+          <name>!skipAssembly</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.maven.plugins</groupId>
+            <artifactId>maven-sisu-assembler-plugin</artifactId>
+            <version>1.0.7</version>
+            <executions>
+              <execution>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>generate</goal>
+                </goals>
+                <configuration>
+                  <alternativeArtifact>
+                    <classifier>bundle</classifier>
+                    <type>zip</type>
+                  </alternativeArtifact>
+                  <useTransitiveDependencies>false</useTransitiveDependencies>
+                  <includeScopes>
+                    <includeScope>provided</includeScope>
+                  </includeScopes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
