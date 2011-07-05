@@ -24,7 +24,10 @@
   </scm>
 
   <properties>
-    <nexus.version>1.9.2-SNAPSHOT</nexus.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <nexus.version>1.9.2</nexus.version>
     <sisu.assembler.tags>nexus,nexus-plugins</sisu.assembler.tags>
   </properties>
 
@@ -54,7 +57,7 @@
       <dependency>
         <groupId>org.sonatype.nexus</groupId>
         <artifactId>nexus-runtime-platform</artifactId>
-        <version>2-INSIGHT-SNAPSHOT</version>
+        <version>${nexus.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -74,13 +77,13 @@
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>app-lifecycle-maven-plugin</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4</version>
         <extensions>true</extensions>
         <dependencies>
           <dependency>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>app-lifecycle-nexus</artifactId>
-            <version>1.4-SNAPSHOT</version>
+            <version>1.4</version>
           </dependency>
         </dependencies>
       </plugin>
