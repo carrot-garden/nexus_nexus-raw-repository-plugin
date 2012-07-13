@@ -26,9 +26,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <nexus.version>1.10.0-SNAPSHOT</nexus.version>
-    <sisu.assembler.tags>nexus,nexus-plugins</sisu.assembler.tags>
+    <nexus.version>2.0.5</nexus.version>
   </properties>
 
   <dependencies>
